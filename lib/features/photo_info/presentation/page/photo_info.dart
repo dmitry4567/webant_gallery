@@ -1,8 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:elevated_flex/elevated_flex.dart';
 import 'package:flutter/material.dart' hide ErrorWidget;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:webant_gallery/core/services/token_manager.dart';
 import 'package:webant_gallery/core/theme/font.dart';
 import 'package:webant_gallery/core/theme/my_icons_icons.dart';
 import 'package:webant_gallery/core/theme/palete.dart';

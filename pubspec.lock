@@ -65,14 +65,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
-  boxy:
-    dependency: transitive
-    description:
-      name: boxy
-      sha256: "569373f23560f5a5dbe53c08a7463a698635e7ac72ba355ff4fa52516c0d2e32"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.2"
   build:
     dependency: transitive
     description:
@@ -241,6 +233,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.7"
+  cupertino_icons:
+    dependency: "direct main"
+    description:
+      name: cupertino_icons
+      sha256: ba631d1c7f7bef6b729a622b7b752645a2d076dba9976925b8f25725a30e1ee6
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.8"
   dart_style:
     dependency: transitive
     description:
@@ -281,14 +281,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  elevated_flex:
-    dependency: "direct main"
-    description:
-      name: elevated_flex
-      sha256: a2f7a167db43673fb0ced695ef989441c11a7a19e6cac54faa1f24eaa682a74d
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.7"
   equatable:
     dependency: "direct main"
     description:
@@ -641,7 +633,7 @@ packages:
     source: hosted
     version: "0.6.7"
   json_annotation:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: json_annotation
       sha256: "1ce844379ca14835a50d2f019a3099f419082cfdd231cd86a142af94dd5c6bb1"
@@ -1149,6 +1141,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
+  widget_zoom:
+    dependency: "direct main"
+    description:
+      name: widget_zoom
+      sha256: f74cb1b9969a74668db0048d3db9ddc7ec5b334d32a1f54475db56f873114550
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   win32:
     dependency: transitive
     description:
