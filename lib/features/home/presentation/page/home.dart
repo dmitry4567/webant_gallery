@@ -1,13 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart' hide ErrorWidget;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:webant_gallery/core/theme/font.dart';
 import 'package:webant_gallery/core/theme/my_icons_icons.dart';
 import 'package:webant_gallery/core/theme/palete.dart';
 import 'package:webant_gallery/core/utils/toast.dart';
-import 'package:webant_gallery/features/home/presentation/cubit/factories/new_photo_state_factory.dart';
-import 'package:webant_gallery/features/home/presentation/cubit/factories/popular_photo_state_factory.dart';
+import 'package:webant_gallery/features/home/data/repository/photo_query_factory.dart';
 import 'package:webant_gallery/features/home/presentation/cubit/home_cubit.dart';
 import 'package:webant_gallery/features/home/presentation/widgets/photo_gridview_widget.dart';
 import 'package:webant_gallery/injection_container.dart' as di;
@@ -37,8 +35,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       });
     });
   }
-
-  late FToast fToast;
 
   @override
   Widget build(BuildContext context) {
@@ -80,18 +76,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.transparent, width: 0),
                   ),
-                  // disabledBorder: OutlineInputBorder(
-                  //   borderSide: BorderSide(color: Colors.transparent, width: 0),
-                  // )
-                  //,
                   contentPadding: const EdgeInsets.only(
                     left: 0,
                     right: 0,
                     top: 0,
                     bottom: 0,
                   ),
-                  // filled: true,
-                  // fillColor: Colors.red,
                 ),
                 keyboardType: TextInputType.text,
               ),
@@ -149,13 +139,21 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 children: [
                   BlocProvider(
                     create: (context) =>
-                        di.sl<HomeCubit>(param1: NewPhotosStateFactory()),
-                    child: const PhotosGridView(),
+                        di.sl<HomeCubit>(param1: PhotoType.newPhoto),
+                    child: const PhotosGridView(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 15,
+                      mainAxisSpacing: 15,
+                    ),
                   ),
                   BlocProvider(
                     create: (context) =>
-                        di.sl<HomeCubit>(param1: PopularPhotosStateFactory()),
-                    child: const PhotosGridView(),
+                        di.sl<HomeCubit>(param1: PhotoType.popularPhoto),
+                    child: const PhotosGridView(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 15,
+                      mainAxisSpacing: 15,
+                    ),
                   ),
                 ],
               ),

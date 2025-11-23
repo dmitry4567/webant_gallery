@@ -1,22 +1,22 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:webant_gallery/core/constants/enums.dart';
+import 'package:webant_gallery/features/home/data/repository/photo_query_factory.dart';
 import 'package:webant_gallery/features/home/domain/entity/photo.dart';
 import 'package:webant_gallery/features/home/domain/usecase/get_new_photo.dart';
-import 'package:webant_gallery/features/home/presentation/cubit/factories/home_state_factory.dart';
 
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   final GetPhotos getPhotos;
+  final PhotoType photoType;
 
   late ScrollController scrollController;
 
   int numberPage = 1;
 
-  HomeCubit({required this.getPhotos, required HomeStateFactory stateFactory})
-    : super(stateFactory.createInitialState());
+  HomeCubit({required this.getPhotos, required this.photoType})
+    : super(HomeState.initial());
 
   void initController(ScrollController controller) {
     scrollController = controller;
@@ -30,7 +30,7 @@ class HomeCubit extends Cubit<HomeState> {
     emit(state.copyWith(isLoading: true, error: ""));
 
     final data = await getPhotos(
-      GetPhotosParams(page: numberPage, photoType: state.type),
+      GetPhotosParams(page: numberPage, photoType: photoType),
     );
 
     data.fold(

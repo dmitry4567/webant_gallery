@@ -1,18 +1,28 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart' hide ErrorWidget;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:webant_gallery/core/app/app_router.dart';
-import 'package:webant_gallery/core/constants/app_constants.dart';
-import 'package:webant_gallery/core/services/token_manager.dart';
 import 'package:webant_gallery/core/theme/palete.dart';
 import 'package:webant_gallery/core/widgets/error_widget.dart';
 import 'package:webant_gallery/core/widgets/loading_widget.dart';
 import 'package:webant_gallery/features/home/presentation/cubit/home_cubit.dart';
-import 'package:webant_gallery/injection_container.dart' as di;
+import 'package:webant_gallery/features/home/presentation/widgets/photo_card.dart';
 
 class PhotosGridView extends StatefulWidget {
-  const PhotosGridView({super.key});
+  const PhotosGridView({
+    super.key,
+    required this.crossAxisCount,
+    required this.crossAxisSpacing,
+    required this.mainAxisSpacing,
+    this.paddingHorizontal = 18,
+    this.borederRadius = 10,
+    this.bottomSpace = false,
+  });
+
+  final int crossAxisCount;
+  final double crossAxisSpacing;
+  final double mainAxisSpacing;
+  final double paddingHorizontal;
+  final double borederRadius;
+  final bool bottomSpace;
 
   @override
   State<PhotosGridView> createState() => _PhotosGridViewState();
@@ -42,7 +52,9 @@ class _PhotosGridViewState extends State<PhotosGridView>
         builder: (context, state) {
           if (state.photos.isNotEmpty) {
             return Container(
-              padding: EdgeInsets.symmetric(horizontal: 18),
+              padding: EdgeInsets.symmetric(
+                horizontal: widget.paddingHorizontal,
+              ),
               child: CustomScrollView(
                 controller: controller,
                 physics: const AlwaysScrollableScrollPhysics(),
@@ -50,49 +62,15 @@ class _PhotosGridViewState extends State<PhotosGridView>
                   SliverGrid.builder(
                     itemCount: state.photos.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 15.0,
-                      mainAxisSpacing: 15.0,
+                      crossAxisCount: widget.crossAxisCount,
+                      crossAxisSpacing: widget.crossAxisSpacing,
+                      mainAxisSpacing: widget.mainAxisSpacing,
                       childAspectRatio: 1.0,
                     ),
                     itemBuilder: (context, index) {
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              '${AppConstants.baseIp}/get_file/${state.photos[index].filePhoto.path}',
-                          httpHeaders: {
-                            "Authorization":
-                                "Bearer ${di.sl<TokenManager>().getAccessToken()}",
-                          },
-                          fit: BoxFit.cover,
-                          imageBuilder: (context, imageProvider) {
-                            return GestureDetector(
-                              onTap: () {
-                                context.router.push(
-                                  PhotoInfoRoute(
-                                    photoId: state.photos[index].id,
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: imageProvider,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                          progressIndicatorBuilder:
-                              (context, _, loadingProgress) {
-                                return Container(color: AppColors.greyLight);
-                              },
-                          errorWidget: (context, _, stackTrace) {
-                            return Container(color: AppColors.errorRed);
-                          },
-                        ),
+                      return PhotoCard(
+                        photo: state.photos[index],
+                        borderRadius: widget.borederRadius,
                       );
                     },
                   ),
@@ -100,12 +78,19 @@ class _PhotosGridViewState extends State<PhotosGridView>
                       ? SliverToBoxAdapter(
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 22),
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                strokeWidth: 1,
-                                color: AppColors.grey,
-                              ),
-                            ),
+                            child: Center(child: LoadingWidget(showText: false,)),
+                          ),
+                        )
+                      : SliverToBoxAdapter(child: SizedBox.shrink()),
+                  !state.isLoading && state.hasReachedMax && widget.bottomSpace
+                      ? SliverToBoxAdapter(
+                          child: Container(
+                            color: Colors.white,
+                            height:
+                                (MediaQuery.of(context).size.height -
+                                    MediaQuery.of(context).size.width -
+                                    244) /
+                                2,
                           ),
                         )
                       : SliverToBoxAdapter(child: SizedBox.shrink()),

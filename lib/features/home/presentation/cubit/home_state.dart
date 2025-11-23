@@ -1,25 +1,28 @@
 part of 'home_cubit.dart';
 
-
-
 class HomeState extends Equatable {
   final List<Photo> photos;
   final int currentPage;
   final bool hasReachedMax;
   final bool isLoading;
   final String error;
-  final PhotoType type;
 
   const HomeState({
-    this.photos = const [],
-    this.currentPage = 0,
-    this.hasReachedMax = false,
-    this.isLoading = false,
-    this.error = '',
-    required this.type,
+    required this.photos,
+    required this.currentPage,
+    required this.hasReachedMax,
+    required this.isLoading,
+    required this.error,
   });
 
-  factory HomeState.initial({required PhotoType type}) => HomeState(type: type);
+  const HomeState.initial()
+    : this(
+        photos: const [],
+        currentPage: 1,
+        hasReachedMax: false,
+        isLoading: false,
+        error: '',
+      );
 
   HomeState copyWith({
     List<Photo>? photos,
@@ -35,16 +38,9 @@ class HomeState extends Equatable {
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       isLoading: isLoading ?? this.isLoading,
       error: error ?? this.error,
-      type: type ?? this.type,
     );
   }
 
   @override
-  List<Object?> get props => [
-    photos,
-    currentPage,
-    hasReachedMax,
-    isLoading,
-    type,
-  ];
+  List<Object?> get props => [photos, currentPage, hasReachedMax, isLoading];
 }

@@ -17,6 +17,8 @@ class ZoomableImage extends StatelessWidget {
     return WidgetZoom(
       heroAnimationTag: 'tag',
       zoomWidget: CachedNetworkImage(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.width,
         imageUrl: '${AppConstants.baseIp}/get_file/$imageUrl',
         httpHeaders: {
           "Authorization": "Bearer ${di.sl<TokenManager>().getAccessToken()}",

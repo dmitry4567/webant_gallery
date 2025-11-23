@@ -1,1 +1,0 @@
-enum PhotoType { newPhoto, popularPhoto }

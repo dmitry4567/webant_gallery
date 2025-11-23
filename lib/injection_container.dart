@@ -17,10 +17,10 @@ import 'package:webant_gallery/features/add_photo/domain/usecase/add_photo.dart'
 import 'package:webant_gallery/features/add_photo/presentation/cubit/add_photo_cubit.dart';
 import 'package:webant_gallery/features/home/data/datasource/home_remote_datasource.dart';
 import 'package:webant_gallery/features/home/data/repository/home_repository_impl.dart';
+import 'package:webant_gallery/features/home/data/repository/photo_query_factory.dart';
 import 'package:webant_gallery/features/home/domain/entity/photo.dart';
 import 'package:webant_gallery/features/home/domain/repository/home_repository.dart';
 import 'package:webant_gallery/features/home/domain/usecase/get_new_photo.dart';
-import 'package:webant_gallery/features/home/presentation/cubit/factories/home_state_factory.dart';
 import 'package:webant_gallery/features/home/presentation/cubit/home_cubit.dart';
 import 'package:webant_gallery/features/photo_info/data/datasource/photo_info_local_datasource.dart';
 import 'package:webant_gallery/features/photo_info/data/datasource/photo_info_remote_datasource.dart';
@@ -83,8 +83,8 @@ Future<void> home() async {
   sl.registerLazySingleton(() => GetPhotos(repository: sl()));
 
   // Blocs
-  sl.registerFactoryParam<HomeCubit, HomeStateFactory, void>(
-    (factory, _) => HomeCubit(stateFactory: factory, getPhotos: sl()),
+  sl.registerFactoryParam<HomeCubit, PhotoType, void>(
+    (type, _) => HomeCubit(photoType: type, getPhotos: sl()),
   );
 }
 

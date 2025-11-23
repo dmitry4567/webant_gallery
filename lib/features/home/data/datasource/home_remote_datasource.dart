@@ -1,15 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:webant_gallery/core/api/api_client.dart';
 import 'package:webant_gallery/core/constants/app_constants.dart';
-import 'package:webant_gallery/core/constants/enums.dart';
 import 'package:webant_gallery/core/errors/exceptions.dart';
+import 'package:webant_gallery/core/utils/typedef.dart';
 import 'package:webant_gallery/features/home/data/model/photo_model.dart';
-
 
 abstract class HomeRemoteDataSource {
   Future<List<PhotoModel>> getPhotos({
     required int page,
-    required PhotoType photoType,
+    required DataMap query,
   });
 }
 
@@ -21,18 +20,20 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   @override
   Future<List<PhotoModel>> getPhotos({
     required int page,
-    required PhotoType photoType,
+    required DataMap query,
   }) async {
+    DataMap queryParams = {};
+
+    queryParams['page'] = page;
+    queryParams['itemsPerPage'] = 10;
+    queryParams['order[id]'] = 'desc';
+
+    queryParams.addAll(query);
+
     final response = await apiClient.get(
       '${AppConstants.baseIp}/photos',
       options: Options(),
-      queryParameters: {
-        'page': page,
-        'itemsPerPage': 10,
-        'order[id]': 'desc',
-        'new': photoType == PhotoType.newPhoto,
-        'popular': photoType == PhotoType.popularPhoto,
-      },
+      queryParameters: queryParams,
     );
 
     if (response.statusCode != 200) {

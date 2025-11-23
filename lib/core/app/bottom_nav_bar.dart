@@ -21,7 +21,7 @@ class _DashboardPageState extends State<DashboardPage> {
         children: [
           AutoTabsScaffold(
             backgroundColor: Colors.transparent,
-            routes: const [HomeRoute(), AddPhotoRoute(), ProfileRoute()],
+            routes: const [HomeRoute(), AllPhotosRoute(), ProfileRoute()],
             bottomNavigationBuilder: (_, tabsRouter) {
               return Container(
                 color: AppColors.white,

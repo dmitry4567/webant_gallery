@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:webant_gallery/core/constants/enums.dart';
 import 'package:webant_gallery/core/errors/exceptions.dart';
 import 'package:webant_gallery/core/errors/failures.dart';
 import 'package:webant_gallery/core/network/network_info.dart';
 import 'package:webant_gallery/core/utils/typedef.dart';
 import 'package:webant_gallery/features/home/data/datasource/home_remote_datasource.dart';
+import 'package:webant_gallery/features/home/data/repository/photo_query_factory.dart';
 import 'package:webant_gallery/features/home/domain/entity/photo.dart';
 import 'package:webant_gallery/features/home/domain/repository/home_repository.dart';
 
@@ -29,9 +29,11 @@ class HomeRepositoryImpl implements HomeRepository {
     }
 
     try {
+      final factoryQuery = PhotoQueryFactory(photoType);
+
       final result = await remoteDataSource.getPhotos(
         page: page,
-        photoType: photoType,
+        query: factoryQuery.query,
       );
 
       return Right(result);

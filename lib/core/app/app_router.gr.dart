@@ -10,20 +10,20 @@
 part of 'app_router.dart';
 
 /// generated route for
-/// [AddPhotoPage]
-class AddPhotoRoute extends PageRouteInfo<void> {
-  const AddPhotoRoute({List<PageRouteInfo>? children})
+/// [AllPhotosPage]
+class AllPhotosRoute extends PageRouteInfo<void> {
+  const AllPhotosRoute({List<PageRouteInfo>? children})
       : super(
-          AddPhotoRoute.name,
+          AllPhotosRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'AddPhotoRoute';
+  static const String name = 'AllPhotosRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const AddPhotoPage();
+      return const AllPhotosPage();
     },
   );
 }
